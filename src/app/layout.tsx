@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { CommandMenuProvider } from "@/components/command-menu";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { getSiteUrl, siteConfig } from "@/config/site";
 import { themeScript } from "@/lib/theme";
 
@@ -50,7 +53,10 @@ export default function RootLayout({
     >
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        {children}
+        <TooltipProvider>
+          <CommandMenuProvider>{children}</CommandMenuProvider>
+        </TooltipProvider>
+        <Toaster />
       </body>
     </html>
   );

@@ -23,6 +23,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
+import { CommandDemo, ControlsDemo, OverlayDemo, ToastDemo } from "./interactive-demos";
+
 export const metadata: Metadata = {
   title: "Design system",
   description: "Hookline's colors, type and components, live in both themes.",
@@ -34,6 +36,10 @@ const sections = [
   { id: "type", label: "Type" },
   { id: "buttons", label: "Buttons" },
   { id: "forms", label: "Forms" },
+  { id: "controls", label: "Controls" },
+  { id: "overlays", label: "Overlays" },
+  { id: "toasts", label: "Toasts" },
+  { id: "command", label: "Command menu" },
   { id: "badges", label: "Badges" },
   { id: "cards", label: "Cards" },
   { id: "details", label: "Details" },
@@ -330,6 +336,38 @@ export default function DesignSystemPage() {
               <Textarea id="design-hook" placeholder="The first line your viewer hears…" />
             </div>
           </div>
+        </Section>
+
+        <Section
+          id="controls"
+          title="Controls"
+          description="Segmented controls for quick filters, switches for settings, tabs for different views of the same thing."
+        >
+          <ControlsDemo />
+        </Section>
+
+        <Section
+          id="overlays"
+          title="Overlays"
+          description="Dialogs confirm, menus offer choices, popovers hold small forms, and tooltips name icon buttons."
+        >
+          <OverlayDemo />
+        </Section>
+
+        <Section
+          id="toasts"
+          title="Toasts"
+          description="Short confirmations in the bottom right. Each type has its own icon, so color is never the only signal."
+        >
+          <ToastDemo />
+        </Section>
+
+        <Section
+          id="command"
+          title="Command menu"
+          description="Jump to any page or run an action from the keyboard."
+        >
+          <CommandDemo />
         </Section>
 
         <Section
