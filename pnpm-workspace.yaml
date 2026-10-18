@@ -1,0 +1,5 @@
+# Packages allowed to run install scripts (pnpm blocks all others).
+# Both only set up prebuilt native binaries.
+allowBuilds:
+  sharp: true
+  unrs-resolver: true

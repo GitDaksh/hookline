@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/*
+ * Base tokens. The full design system (colors, type scale, light mode)
+ * arrives in Branch 2. Keep this file small until then.
+ */
+:root {
+  color-scheme: dark;
+  --background: #0a0a0b;
+  --foreground: #fafafa;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Hero line: draws itself once on page load. */
+.hero-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-line 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards;
+}
+
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-line {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
