@@ -80,16 +80,17 @@
   --secondary: #f1f1f3;
   --secondary-foreground: #18181b;
 
-  --brand: #6352e6;
+  /* Deep enough that text stays readable on its own light tints (badges, hover states) */
+  --brand: #594acf;
   --brand-foreground: #ffffff;
 
-  --success: #147a3a;
-  --warning: #a84d08;
-  --danger: #cf2222;
+  --success: #126f35;
+  --warning: #9b4707;
+  --danger: #b61e1e;
 
   --border: #e4e4e7;
   --input: #d8d8dd;
-  --ring: #6352e6;
+  --ring: #594acf;
 
   --chart-1: #6250d6;
   --chart-2: #148f63;

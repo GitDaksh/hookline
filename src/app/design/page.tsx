@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Link2, Plus, Search, TrendingUp } from "lucide-react";
+import { ArrowRight, LayoutDashboard, Link2, Plus, Search, TrendingUp } from "lucide-react";
 
 import { Logo } from "@/components/brand/logo";
+import { AreaChart } from "@/components/charts/area-chart";
+import { BarChart } from "@/components/charts/bar-chart";
+import { ChartCard } from "@/components/charts/chart-card";
+import { LineChart } from "@/components/charts/line-chart";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -18,12 +22,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Kbd } from "@/components/ui/kbd";
 import { Label } from "@/components/ui/label";
+import { Meter } from "@/components/ui/meter";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { StatTile } from "@/components/ui/stat-tile";
 import { Textarea } from "@/components/ui/textarea";
+import { formatNumber } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 import { CommandDemo, ControlsDemo, OverlayDemo, ToastDemo } from "./interactive-demos";
+import { rangeSummaries, viewsByFormat, weekdayAverages } from "./sample-data";
 
 export const metadata: Metadata = {
   title: "Design system",
@@ -42,7 +50,23 @@ const sections = [
   { id: "command", label: "Command menu" },
   { id: "badges", label: "Badges" },
   { id: "cards", label: "Cards" },
+  { id: "stats", label: "Stats" },
+  { id: "charts", label: "Charts" },
   { id: "details", label: "Details" },
+] as const;
+
+const last28Days = rangeSummaries[28].days;
+
+const formatSeries = [
+  { key: "reels", name: "Reels" },
+  { key: "carousels", name: "Carousels" },
+  { key: "photos", name: "Photos" },
+];
+
+const meterTones = [
+  { tone: "brand", label: "On track", value: 0.68 },
+  { tone: "warning", label: "Getting close", value: 0.86 },
+  { tone: "danger", label: "Over the limit", value: 1 },
 ] as const;
 
 type SwatchItem = { name: string; className: string };
@@ -197,7 +221,13 @@ export default function DesignSystemPage() {
             Every color, type style and component in Hookline. Use the switch in the top right to
             check both themes.
           </p>
-          <nav aria-label="Sections" className="mt-6 flex flex-wrap gap-2">
+          <Button asChild className="mt-6">
+            <Link href="/design/dashboard">
+              <LayoutDashboard />
+              Open the dashboard preview
+            </Link>
+          </Button>
+          <nav aria-label="Sections" className="mt-8 flex flex-wrap gap-2">
             {sections.map((section) => (
               <a
                 key={section.id}
@@ -430,6 +460,128 @@ export default function DesignSystemPage() {
                 <Skeleton className="h-3.5 w-full" />
               </CardContent>
             </Card>
+          </div>
+        </Section>
+
+        <Section
+          id="stats"
+          title="Stats"
+          description="A headline number with a label and how it moved against a named period. Green or red always comes with an arrow, and some numbers are better going down."
+        >
+          <div className="grid gap-10">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+              <StatTile
+                label="Views"
+                value="1.38M"
+                change={{ value: 0.246 }}
+                comparison="vs prev. 28 days"
+              />
+              <StatTile
+                label="Saves"
+                value="9,412"
+                change={{ value: -0.042 }}
+                comparison="vs prev. 28 days"
+              />
+              <StatTile
+                label="Skip rate"
+                value="29%"
+                change={{ value: -0.03, unit: "points", upIsGood: false }}
+                comparison="vs prev. 28 days"
+              />
+              <StatTile
+                label="Hook hold"
+                value="71%"
+                change={{ value: 0.03, unit: "points" }}
+                comparison="vs prev. 28 days"
+              >
+                <Meter value={0.71} aria-label="Hook hold" aria-valuetext="71%" className="mt-3" />
+              </StatTile>
+            </div>
+            <div className="grid max-w-md gap-5">
+              {meterTones.map((meter) => (
+                <div key={meter.tone} className="grid gap-2">
+                  <div className="flex items-baseline justify-between gap-4 text-sm">
+                    <span>{meter.label}</span>
+                    <span className="text-xs text-muted-foreground tabular-nums">
+                      {Math.round(meter.value * 100)}%
+                    </span>
+                  </div>
+                  <Meter
+                    value={meter.value}
+                    tone={meter.tone}
+                    aria-label={meter.label}
+                    aria-valuetext={`${Math.round(meter.value * 100)}%`}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </Section>
+
+        <Section
+          id="charts"
+          title="Charts"
+          description="2px lines, a soft 10% wash under areas, hairline gridlines and color-blind-safe colors. Hover, or focus a chart and use the arrow keys, for exact numbers. Any chart can switch to a table."
+        >
+          <div className="grid grid-cols-1 gap-4">
+            <ChartCard
+              title="Views per day"
+              description="Last 28 days · sample data"
+              table={{
+                columns: ["Date", "Views"],
+                rows: [...last28Days]
+                  .reverse()
+                  .map((day) => [day.fullLabel, formatNumber(day.views)]),
+              }}
+            >
+              <AreaChart
+                name="Views"
+                description="Daily views for the last 28 days, sample data."
+                data={last28Days.map((day) => ({
+                  label: day.label,
+                  tooltipLabel: day.fullLabel,
+                  value: day.views,
+                }))}
+              />
+            </ChartCard>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+              <ChartCard
+                title="Views by format"
+                description="Weekly · last 12 weeks · sample data"
+                table={{
+                  columns: ["Week ending", ...formatSeries.map((series) => series.name)],
+                  rows: [...viewsByFormat]
+                    .reverse()
+                    .map((week) => [
+                      week.label,
+                      formatNumber(week.reels),
+                      formatNumber(week.carousels),
+                      formatNumber(week.photos),
+                    ]),
+                }}
+              >
+                <LineChart
+                  title="Views by format"
+                  description="Weekly views for reels, carousels and photos over 12 weeks, sample data."
+                  series={formatSeries}
+                  data={viewsByFormat}
+                />
+              </ChartCard>
+              <ChartCard
+                title="Best day to post"
+                description="Average views by weekday · sample data"
+                table={{
+                  columns: ["Day", "Average views"],
+                  rows: weekdayAverages.map((day) => [day.tooltipLabel, formatNumber(day.value)]),
+                }}
+              >
+                <BarChart
+                  name="Average views"
+                  description="Average daily views for each weekday over the last 12 weeks, sample data."
+                  data={weekdayAverages}
+                />
+              </ChartCard>
+            </div>
           </div>
         </Section>
 

@@ -1,4 +1,5 @@
-import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 import { Logo } from "@/components/brand/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -80,12 +81,20 @@ export default function HomePage() {
           {siteConfig.description}
         </p>
 
-        <Button asChild variant="secondary" size="lg" className="mt-10">
-          <a href={siteConfig.links.github} target="_blank" rel="noreferrer">
-            Follow the build on GitHub
-            <ArrowUpRight />
-          </a>
-        </Button>
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <Button asChild size="lg">
+            <Link href="/design/dashboard">
+              See the dashboard preview
+              <ArrowRight />
+            </Link>
+          </Button>
+          <Button asChild variant="secondary" size="lg">
+            <a href={siteConfig.links.github} target="_blank" rel="noreferrer">
+              Follow the build on GitHub
+              <ArrowUpRight />
+            </a>
+          </Button>
+        </div>
       </main>
     </div>
   );

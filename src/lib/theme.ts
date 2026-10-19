@@ -9,7 +9,12 @@ export const THEME_STORAGE_KEY = "theme";
  */
 export const themeScript = `(function(){try{var t=localStorage.getItem("${THEME_STORAGE_KEY}")==="light"?"light":"dark";var r=document.documentElement;r.classList.add(t);r.style.colorScheme=t}catch(e){document.documentElement.classList.add("dark")}})();`;
 
-/** Applies a theme to the page and remembers it. Browser only. */
+/** The theme currently on the page. Browser only. */
+export function getTheme(): Theme {
+  return document.documentElement.classList.contains("light") ? "light" : "dark";
+}
+
+/** Applies a theme instantly and remembers it. Browser only. */
 export function applyTheme(theme: Theme) {
   const root = document.documentElement;
   root.classList.remove("dark", "light");
@@ -22,14 +27,19 @@ export function applyTheme(theme: Theme) {
   }
 }
 
-/** Switches between dark and light, cross-fading where the browser supports it. Browser only. */
-export function toggleTheme() {
-  const next: Theme = document.documentElement.classList.contains("light") ? "dark" : "light";
+/** Switches to a theme, cross-fading where the browser supports it. Browser only. */
+export function setTheme(theme: Theme) {
+  if (document.documentElement.classList.contains(theme)) return;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (!reduceMotion && "startViewTransition" in document) {
-    document.startViewTransition(() => applyTheme(next));
+    document.startViewTransition(() => applyTheme(theme));
   } else {
-    applyTheme(next);
+    applyTheme(theme);
   }
+}
+
+/** Flips between dark and light. Browser only. */
+export function toggleTheme() {
+  setTheme(getTheme() === "light" ? "dark" : "light");
 }

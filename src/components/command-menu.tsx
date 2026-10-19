@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
-import { ExternalLink, House, Palette, Search, SunMoon } from "lucide-react";
+import { ExternalLink, House, LayoutDashboard, Palette, Search, SunMoon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -94,6 +94,13 @@ function CommandMenu({
             <House />
             Home
           </CommandItem>
+          <CommandItem
+            keywords={["overview", "analytics", "stats"]}
+            onSelect={() => run(() => router.push("/design/dashboard"))}
+          >
+            <LayoutDashboard />
+            Dashboard preview
+          </CommandItem>
           <CommandItem onSelect={() => run(() => router.push("/design"))}>
             <Palette />
             Design system
@@ -121,7 +128,7 @@ function CommandMenu({
   );
 }
 
-/** A search field look-alike that opens the command menu. */
+/** A search field look-alike that opens the command menu. Shrinks to an icon on phones. */
 export function SearchButton({ className }: { className?: string }) {
   const { setOpen } = useCommandMenu();
   const isMac = useIsMac();
@@ -132,13 +139,16 @@ export function SearchButton({ className }: { className?: string }) {
       onClick={() => setOpen(true)}
       aria-keyshortcuts={isMac ? "Meta+K" : "Control+K"}
       className={cn(
-        "w-56 justify-start gap-2 px-3 font-normal text-muted-foreground hover:text-foreground",
+        "w-9 gap-2 px-0 font-normal text-muted-foreground hover:text-foreground sm:w-56 sm:justify-start sm:px-3",
         className,
       )}
     >
       <Search />
-      <span className="flex-1 text-left">Search…</span>
-      <Kbd>{isMac ? "⌘K" : "Ctrl K"}</Kbd>
+      {/* Screen readers always hear "Search…". On phones the word is visually hidden. */}
+      <span className="sr-only sm:not-sr-only sm:flex-1 sm:text-left">Search…</span>
+      <Kbd aria-hidden="true" className="hidden sm:inline-flex">
+        {isMac ? "⌘K" : "Ctrl K"}
+      </Kbd>
     </Button>
   );
 }
