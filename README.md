@@ -6,6 +6,8 @@ Hookline is a free, open-source analytics and content studio for creators. Plan 
 
 > **Status:** early development, building in public. Star the repo to follow along.
 
+**Live:** [gethookline.vercel.app](https://gethookline.vercel.app) · [Dashboard preview](https://gethookline.vercel.app/design/dashboard) · [Design system](https://gethookline.vercel.app/design)
+
 ## What it does (planned)
 
 - **Analytics:** look up any public YouTube channel by its handle, or connect your own Instagram and YouTube accounts for private stats like reach, saves and watch time.
@@ -18,6 +20,8 @@ Hookline is a free, open-source analytics and content studio for creators. Plan 
 | --------------- | --------------------------------------------- |
 | App             | Next.js 16 (App Router), React 19, TypeScript |
 | Styling         | Tailwind CSS 4                                |
+| UI              | Radix UI, cmdk, Sonner, Lucide icons          |
+| Charts          | Recharts                                      |
 | Database & auth | Supabase (Postgres), coming soon              |
 | Hosting         | Vercel                                        |
 | Tooling         | pnpm, ESLint, Prettier, GitHub Actions        |
@@ -50,7 +54,7 @@ Then open [http://localhost:3000](http://localhost:3000).
 ## Roadmap
 
 - [x] Project foundation
-- [ ] Design system
+- [x] Design system
 - [ ] YouTube channel lookup
 - [ ] Sign-in
 - [ ] Instagram connect
