@@ -2,9 +2,11 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 import { Logo } from "@/components/brand/logo";
+import { SiteFooter } from "@/components/site/site-footer";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ChannelSearch } from "@/components/youtube/channel-search";
 import { siteConfig } from "@/config/site";
 
 const HERO_LINE_PATH =
@@ -62,7 +64,7 @@ export default function HomePage() {
         <ThemeToggle />
       </header>
 
-      <main className="flex flex-1 flex-col items-center justify-center px-6 pb-24 text-center">
+      <main className="flex flex-1 flex-col items-center justify-center px-6 pt-8 pb-20 text-center">
         <Badge className="mb-8">
           <span className="relative flex size-1.5">
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand opacity-60 motion-reduce:animate-none" />
@@ -81,14 +83,21 @@ export default function HomePage() {
           {siteConfig.description}
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Button asChild size="lg">
+        <div className="mt-10 w-full max-w-md">
+          <ChannelSearch />
+          <p className="mt-3 text-xs text-subtle-foreground">
+            Look up any public YouTube channel. Free, and no sign-in needed.
+          </p>
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+          <Button asChild variant="ghost">
             <Link href="/design/dashboard">
               See the dashboard preview
               <ArrowRight />
             </Link>
           </Button>
-          <Button asChild variant="secondary" size="lg">
+          <Button asChild variant="ghost">
             <a href={siteConfig.links.github} target="_blank" rel="noreferrer">
               Follow the build on GitHub
               <ArrowUpRight />
@@ -96,6 +105,8 @@ export default function HomePage() {
           </Button>
         </div>
       </main>
+
+      <SiteFooter />
     </div>
   );
 }

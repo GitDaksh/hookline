@@ -2,7 +2,16 @@
 
 import { createContext, useContext, useEffect, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
-import { ExternalLink, House, LayoutDashboard, Palette, Search, SunMoon } from "lucide-react";
+import {
+  ArrowRight,
+  ExternalLink,
+  House,
+  LayoutDashboard,
+  Palette,
+  Search,
+  SquarePlay,
+  SunMoon,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +28,7 @@ import { Kbd } from "@/components/ui/kbd";
 import { siteConfig } from "@/config/site";
 import { toggleTheme } from "@/lib/theme";
 import { cn } from "@/lib/utils";
+import { channelPath, describeChannelRef, parseChannelInput } from "@/lib/youtube/handle";
 
 type CommandMenuContextValue = {
   open: boolean;
@@ -77,22 +87,49 @@ function CommandMenu({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  return (
+    <CommandDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      description="Search for a page or an action, or look up a YouTube channel."
+    >
+      <CommandMenuContent close={() => onOpenChange(false)} />
+    </CommandDialog>
+  );
+}
+
+// Lives inside the dialog, so the search box starts empty every time the menu opens.
+function CommandMenuContent({ close }: { close: () => void }) {
   const router = useRouter();
+  const [search, setSearch] = useState("");
+  // Anything that reads as a YouTube handle or channel link gets a "Look up" option.
+  const channel = parseChannelInput(search);
 
   function run(action: () => void) {
-    onOpenChange(false);
+    close();
     action();
   }
 
   return (
-    <CommandDialog open={open} onOpenChange={onOpenChange}>
-      <CommandInput placeholder="Search pages and actions…" />
+    <>
+      <CommandInput
+        value={search}
+        onValueChange={setSearch}
+        placeholder="Search pages, or type a YouTube @handle…"
+      />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
+        {!channel && <CommandEmpty>No results found.</CommandEmpty>}
         <CommandGroup heading="Pages">
           <CommandItem onSelect={() => run(() => router.push("/"))}>
             <House />
             Home
+          </CommandItem>
+          <CommandItem
+            keywords={["youtube", "channel", "lookup", "search"]}
+            onSelect={() => run(() => router.push("/youtube"))}
+          >
+            <SquarePlay />
+            YouTube channel lookup
           </CommandItem>
           <CommandItem
             keywords={["overview", "analytics", "stats"]}
@@ -122,9 +159,22 @@ function CommandMenu({
             View source on GitHub
           </CommandItem>
         </CommandGroup>
+        {channel && (
+          // Always shown while it applies, and listed last, so a matching page still comes first.
+          <CommandGroup heading="YouTube" forceMount>
+            <CommandItem
+              forceMount
+              value="look-up-youtube-channel"
+              onSelect={() => run(() => router.push(channelPath(channel)))}
+            >
+              <ArrowRight />
+              Look up {describeChannelRef(channel)}
+            </CommandItem>
+          </CommandGroup>
+        )}
       </CommandList>
       <CommandFooter />
-    </CommandDialog>
+    </>
   );
 }
 
