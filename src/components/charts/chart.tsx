@@ -120,8 +120,10 @@ export function ChartTooltipContent({
   const title = readTooltipLabel(payload[0]?.payload) ?? label;
 
   return (
-    <div className="min-w-36 rounded-lg border border-border bg-popover px-3 py-2 text-popover-foreground shadow-xl">
-      {title !== undefined && <p className="text-[11px] text-subtle-foreground">{title}</p>}
+    <div className="max-w-72 min-w-36 rounded-lg border border-border bg-popover px-3 py-2 text-popover-foreground shadow-xl">
+      {title !== undefined && (
+        <p className="line-clamp-2 text-[11px] text-subtle-foreground">{title}</p>
+      )}
       <ul className="mt-1 grid gap-1">
         {payload.map((entry) => (
           <li

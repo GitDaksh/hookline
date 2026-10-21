@@ -47,10 +47,22 @@ export function BarChart({
   const fill = chartColor(color);
   const yTicks = yAxisTicks(Math.max(0, ...data.map((point) => point.value)));
 
+  // Up to 7 bars, every bar gets its label. More than that, about 4 evenly spaced labels,
+  // counting back from the last bar so it always has one. This fits even on small phones.
+  const labelEvery = data.length <= 7 ? 1 : Math.ceil(data.length / 4);
+  const lastIndex = data.length - 1;
+  // Each bar gets its own slot, so two bars with the same label (like two videos on one day)
+  // stay apart.
+  const rows = data.map((point, index) => ({
+    ...point,
+    slot: String(index),
+    tooltipLabel: point.tooltipLabel ?? point.label,
+  }));
+
   return (
     <ChartFrame height={height} className={className}>
       <RechartsBarChart
-        data={data}
+        data={rows}
         responsive
         style={{ width: "100%", height: "100%" }}
         margin={{ top: 8, right: 8, bottom: 0, left: 0 }}
@@ -58,8 +70,15 @@ export function BarChart({
         desc={description}
       >
         <CartesianGrid {...gridProps} />
-        {/* Every bar keeps its label, so keep bar charts to a handful of categories. */}
-        <XAxis dataKey="label" interval={0} {...xAxisProps} />
+        <XAxis
+          dataKey="slot"
+          interval={0}
+          tickFormatter={(slot: string) => {
+            const index = Number(slot);
+            return (lastIndex - index) % labelEvery === 0 ? (data[index]?.label ?? "") : "";
+          }}
+          {...xAxisProps}
+        />
         <YAxis
           {...yAxisProps}
           domain={[0, yTicks[yTicks.length - 1] ?? "auto"]}

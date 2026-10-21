@@ -114,18 +114,20 @@ function ChartTable({
         </thead>
         <tbody>
           {table.rows.map((row, rowIndex) => (
-            <tr key={row[0] ?? rowIndex} className="border-b border-border last:border-0">
+            // Rows never reorder, and names like video titles can repeat, so the index is the key.
+            <tr key={rowIndex} className="border-b border-border last:border-0">
               {row.map((cell, index) =>
                 index === 0 ? (
+                  // The first column can wrap (long names, like video titles); numbers never do.
                   <th
                     key={index}
                     scope="row"
-                    className="h-9 px-3 text-left font-normal whitespace-nowrap text-muted-foreground"
+                    className="h-9 px-3 py-2 text-left font-normal text-muted-foreground"
                   >
                     {cell}
                   </th>
                 ) : (
-                  <td key={index} className="px-3 text-right tabular-nums">
+                  <td key={index} className="px-3 text-right whitespace-nowrap tabular-nums">
                     {cell}
                   </td>
                 ),
