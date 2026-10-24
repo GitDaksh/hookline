@@ -15,7 +15,7 @@ export default function TermsPage() {
     <SiteShell>
       <LegalPage
         title="Terms of Service"
-        updated="October 21, 2026"
+        updated="October 24, 2026"
         intro={
           <p>
             These terms cover your use of Hookline. They&apos;re written in plain words. By using
@@ -25,9 +25,9 @@ export default function TermsPage() {
       >
         <LegalSection title="What Hookline is">
           <p>
-            Hookline is a free, open-source tool for creators. Right now it shows public data about
-            YouTube channels. It&apos;s an independent project in early development, so features
-            will change.
+            Hookline is a free, open-source tool for creators. It shows public data about YouTube
+            channels, and gives signed-in creators a dashboard for their own channel. It&apos;s an
+            independent project in early development, so features will change.
           </p>
         </LegalSection>
 
@@ -38,6 +38,25 @@ export default function TermsPage() {
             <LegalLink href="https://www.youtube.com/t/terms">YouTube Terms of Service</LegalLink>.
             Hookline isn&apos;t affiliated with, endorsed by or sponsored by YouTube or Google.
           </p>
+        </LegalSection>
+
+        <LegalSection title="Your account">
+          <LegalList>
+            <li>You sign in with a Google account, and you need to be at least 13.</li>
+            <li>
+              You&apos;re responsible for what happens in your account, so keep your Google account
+              secure.
+            </li>
+            <li>
+              Adding a channel to your dashboard only shows its public numbers. It doesn&apos;t give
+              you any control over that channel.
+            </li>
+            <li>
+              You can delete your account at any time in{" "}
+              <LegalLink href="/settings">Settings</LegalLink>.
+            </li>
+          </LegalList>
+          <p>We may suspend or delete accounts that break these terms.</p>
         </LegalSection>
 
         <LegalSection title="Using Hookline fairly">

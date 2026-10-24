@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
-import { AppShell } from "@/components/app-shell/app-shell";
+import { AccountMenu } from "@/components/app-shell/account-menu";
 import type { NavItem } from "@/components/app-shell/app-header";
+import { AppShell } from "@/components/app-shell/app-shell";
 
 import { DashboardPreview } from "./dashboard-preview";
 
@@ -22,7 +23,7 @@ const previewUser = { name: "Demo creator", detail: "@hookline.demo" };
 
 export default function DashboardPreviewPage() {
   return (
-    <AppShell nav={previewNav} user={previewUser}>
+    <AppShell nav={previewNav} account={<AccountMenu user={previewUser} />}>
       <DashboardPreview />
     </AppShell>
   );

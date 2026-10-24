@@ -4,8 +4,15 @@ import { YouTubeLink, youtubeChannelUrl } from "@/components/youtube/youtube-lin
 import type { ChannelOverview } from "@/lib/youtube/channel";
 import { countryName, formatMonthYear } from "@/lib/youtube/format";
 
+type ChannelHeaderProps = {
+  channel: ChannelOverview["channel"];
+  /** 1 when the channel is the page itself, 2 when it's a section of a bigger page. */
+  headingLevel?: 1 | 2;
+};
+
 /** The channel's picture, name, handle and description, with a link to it on YouTube. */
-export function ChannelHeader({ channel }: { channel: ChannelOverview["channel"] }) {
+export function ChannelHeader({ channel, headingLevel = 1 }: ChannelHeaderProps) {
+  const Heading = headingLevel === 1 ? "h1" : "h2";
   const details = [
     channel.handle,
     `Joined ${formatMonthYear(channel.publishedAt)}`,
@@ -21,9 +28,9 @@ export function ChannelHeader({ channel }: { channel: ChannelOverview["channel"]
       />
 
       <div className="min-w-0 sm:self-center">
-        <h1 className="text-2xl leading-tight font-semibold tracking-tight wrap-break-word">
+        <Heading className="text-2xl leading-tight font-semibold tracking-tight wrap-break-word">
           {channel.title}
-        </h1>
+        </Heading>
         <p className="mt-1 text-[13px] text-subtle-foreground">{details.join(" · ")}</p>
       </div>
 

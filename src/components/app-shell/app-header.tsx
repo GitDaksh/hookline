@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { AccountMenu, type AccountUser } from "@/components/app-shell/account-menu";
 import { Logo } from "@/components/brand/logo";
 import { SearchButton } from "@/components/command-menu";
 import { cn } from "@/lib/utils";
@@ -16,7 +15,13 @@ export type NavItem = {
   soon?: boolean;
 };
 
-export function AppHeader({ nav, user }: { nav: readonly NavItem[]; user: AccountUser }) {
+type AppHeaderProps = {
+  nav: readonly NavItem[];
+  /** The account button at the right end. */
+  account: React.ReactNode;
+};
+
+export function AppHeader({ nav, account }: AppHeaderProps) {
   return (
     <header className="sticky top-0 z-40 bg-background/80 shadow-[inset_0_-1px_0_var(--border)] backdrop-blur-md">
       <div className="flex flex-wrap items-center gap-x-7 px-4 sm:px-6">
@@ -27,7 +32,7 @@ export function AppHeader({ nav, user }: { nav: readonly NavItem[]; user: Accoun
         {/* Phones: its own row that scrolls sideways. Laptops: inline next to the logo. */}
         <nav
           aria-label="Main"
-          className="order-last -mx-4 flex w-[calc(100%+2rem)] [scrollbar-width:none] gap-6 overflow-x-auto px-4 sm:-mx-6 sm:w-[calc(100%+3rem)] sm:px-6 md:order-none md:mx-0 md:w-auto md:gap-5 md:px-0 [&::-webkit-scrollbar]:hidden"
+          className="order-last -mx-4 flex w-[calc(100%+2rem)] scrollbar-none gap-6 overflow-x-auto px-4 sm:-mx-6 sm:w-[calc(100%+3rem)] sm:px-6 md:order-0 md:mx-0 md:w-auto md:gap-5 md:px-0 [&::-webkit-scrollbar]:hidden"
         >
           {/* Pages with unknown URL parts can't know the active tab until the visit, so the
               tabs show without the underline until then. */}
@@ -38,7 +43,7 @@ export function AppHeader({ nav, user }: { nav: readonly NavItem[]; user: Accoun
 
         <div className="ml-auto flex items-center gap-2">
           <SearchButton className="sm:w-48" />
-          <AccountMenu user={user} />
+          {account}
         </div>
       </div>
     </header>

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { CommandMenuProvider } from "@/components/command-menu";
+import { FlashToast } from "@/components/flash-toast";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getSiteUrl, siteConfig } from "@/config/site";
@@ -49,6 +50,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
+      // Smooth scrolling is for links within a page. This tells Next.js to jump straight to the
+      // top when moving between pages instead.
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <body>
@@ -57,6 +61,7 @@ export default function RootLayout({
           <CommandMenuProvider>{children}</CommandMenuProvider>
         </TooltipProvider>
         <Toaster />
+        <FlashToast />
       </body>
     </html>
   );

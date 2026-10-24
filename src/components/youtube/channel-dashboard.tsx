@@ -15,16 +15,22 @@ const CHART_VIDEOS = 30;
 const TOP_VIDEOS = 5;
 const DAY = 86_400_000;
 
+type ChannelDashboardProps = {
+  overview: ChannelOverview;
+  /** 1 on the channel's own page, 2 when it sits inside another page (like your dashboard). */
+  headingLevel?: 1 | 2;
+};
+
 /**
  * A channel's public numbers, straight from YouTube. YouTube's API rules don't allow numbers we
  * work out ourselves (averages, rates, scores), so everything here is shown as YouTube gives it.
  */
-export function ChannelDashboard({ overview }: { overview: ChannelOverview }) {
+export function ChannelDashboard({ overview, headingLevel = 1 }: ChannelDashboardProps) {
   const { channel, uploads, popular, fetchedAt } = overview;
 
   return (
     <div className="grid grid-cols-1 gap-6">
-      <ChannelHeader channel={channel} />
+      <ChannelHeader channel={channel} headingLevel={headingLevel} />
 
       <section
         aria-label="Channel numbers"
