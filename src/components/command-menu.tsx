@@ -7,6 +7,7 @@ import {
   ExternalLink,
   House,
   LayoutDashboard,
+  LayoutTemplate,
   Palette,
   Search,
   SquarePlay,
@@ -125,6 +126,13 @@ function CommandMenuContent({ close }: { close: () => void }) {
             Home
           </CommandItem>
           <CommandItem
+            keywords={["account", "sign in", "login", "overview"]}
+            onSelect={() => run(() => router.push("/dashboard"))}
+          >
+            <LayoutDashboard />
+            Your dashboard
+          </CommandItem>
+          <CommandItem
             keywords={["youtube", "channel", "lookup", "search"]}
             onSelect={() => run(() => router.push("/youtube"))}
           >
@@ -132,10 +140,10 @@ function CommandMenuContent({ close }: { close: () => void }) {
             YouTube channel lookup
           </CommandItem>
           <CommandItem
-            keywords={["overview", "analytics", "stats"]}
+            keywords={["analytics", "stats", "sample", "demo"]}
             onSelect={() => run(() => router.push("/design/dashboard"))}
           >
-            <LayoutDashboard />
+            <LayoutTemplate />
             Dashboard preview
           </CommandItem>
           <CommandItem onSelect={() => run(() => router.push("/design"))}>

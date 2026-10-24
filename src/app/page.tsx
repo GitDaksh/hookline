@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 
+import { HeaderAccount } from "@/components/auth/header-account";
 import { Logo } from "@/components/brand/logo";
 import { SiteFooter } from "@/components/site/site-footer";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -61,7 +62,10 @@ export default function HomePage() {
 
       <header className="flex items-center justify-between px-6 py-4">
         <Logo />
-        <ThemeToggle />
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <HeaderAccount />
+        </div>
       </header>
 
       <main className="flex flex-1 flex-col items-center justify-center px-6 pt-8 pb-20 text-center">

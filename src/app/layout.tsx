@@ -49,6 +49,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
+      // Smooth scrolling is for links within a page. This tells Next.js to jump straight to the
+      // top when moving between pages instead.
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <body>

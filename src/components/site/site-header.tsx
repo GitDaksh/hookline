@@ -5,12 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
 
+import { HeaderAccount } from "@/components/auth/header-account";
 import { Logo } from "@/components/brand/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { ChannelSearch } from "@/components/youtube/channel-search";
 
-/** The top bar for public pages: logo, a channel search box and the theme switch. */
+/** The top bar for public pages: logo, a channel search box, the theme switch and sign-in. */
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 bg-background/80 shadow-[inset_0_-1px_0_var(--border)] backdrop-blur-md">
@@ -25,6 +26,7 @@ export function SiteHeader() {
             <HeaderSearchUnlessSearchPage />
           </Suspense>
           <ThemeToggle />
+          <HeaderAccount className="ml-1.5" />
         </div>
       </div>
     </header>
