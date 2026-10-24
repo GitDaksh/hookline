@@ -37,7 +37,7 @@ async function CurrentAccountMenu() {
   return (
     <AccountMenu
       user={{ name: user.name, detail: user.email ?? undefined, avatarUrl: user.avatarUrl }}
-      canSignOut
+      signedIn
     />
   );
 }

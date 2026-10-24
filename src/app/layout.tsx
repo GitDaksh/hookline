@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { CommandMenuProvider } from "@/components/command-menu";
+import { FlashToast } from "@/components/flash-toast";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getSiteUrl, siteConfig } from "@/config/site";
@@ -60,6 +61,7 @@ export default function RootLayout({
           <CommandMenuProvider>{children}</CommandMenuProvider>
         </TooltipProvider>
         <Toaster />
+        <FlashToast />
       </body>
     </html>
   );

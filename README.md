@@ -13,6 +13,7 @@ Hookline is a free, open-source analytics and content studio for creators. Plan 
 **Now**
 
 - **YouTube channel lookup:** type any @handle or paste a channel link to see subscribers, total views, views on the latest uploads, and the channel's most viewed videos. Free, no sign-in.
+- **Your dashboard:** sign in with Google, add your channel, and see its numbers every time you open Hookline. You can remove your channel or delete your account at any time.
 
 **Planned**
 
@@ -22,16 +23,16 @@ Hookline is a free, open-source analytics and content studio for creators. Plan 
 
 ## Tech stack
 
-| Layer           | Tools                                         |
-| --------------- | --------------------------------------------- |
-| App             | Next.js 16 (App Router), React 19, TypeScript |
-| Styling         | Tailwind CSS 4                                |
-| UI              | Radix UI, cmdk, Sonner, Lucide icons          |
-| Charts          | Recharts                                      |
-| Data            | YouTube Data API v3, Zod                      |
-| Database & auth | Supabase (Postgres), coming soon              |
-| Hosting         | Vercel                                        |
-| Tooling         | pnpm, ESLint, Prettier, GitHub Actions        |
+| Layer           | Tools                                          |
+| --------------- | ---------------------------------------------- |
+| App             | Next.js 16 (App Router), React 19, TypeScript  |
+| Styling         | Tailwind CSS 4                                 |
+| UI              | Radix UI, cmdk, Sonner, Lucide icons           |
+| Charts          | Recharts                                       |
+| Data            | YouTube Data API v3, Zod                       |
+| Database & auth | Supabase (Postgres, Auth), Sign in with Google |
+| Hosting         | Vercel                                         |
+| Tooling         | pnpm, ESLint, Prettier, GitHub Actions         |
 
 ## Getting started
 
@@ -56,6 +57,16 @@ The YouTube lookup needs a free **YouTube Data API v3** key in `.env.local`:
 
 The API is free, with a daily quota. Each new channel lookup uses 5 of the 10,000 daily units, and results are cached for an hour.
 
+### Sign-in (optional)
+
+Without these, everything else still works and the sign-in page says it isn't set up. Both services are free, with no card needed.
+
+1. Create a project at [Supabase](https://supabase.com) (Free plan).
+2. In its **SQL Editor**, run [`supabase/migrations/20261024120000_profiles.sql`](supabase/migrations/20261024120000_profiles.sql).
+3. In [Google Cloud](https://console.cloud.google.com/auth/overview), set up the Google Auth Platform and create a **Web application** client. Add `http://localhost` and `http://localhost:3000` under **Authorized JavaScript origins**.
+4. In Supabase, open **Authentication → Sign In / Providers → Google**, turn it on, and paste the client ID and secret.
+5. Fill in `.env.local`: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` and `NEXT_PUBLIC_GOOGLE_CLIENT_ID`, plus `SUPABASE_SECRET_KEY` (server-only, used to delete accounts). `.env.example` says where to find each one.
+
 ## Scripts
 
 | Command          | What it does                      |
@@ -73,7 +84,7 @@ The API is free, with a daily quota. Each new channel lookup uses 5 of the 10,00
 - [x] Project foundation
 - [x] Design system
 - [x] YouTube channel lookup
-- [ ] Sign-in
+- [x] Sign-in
 - [ ] Instagram connect
 - [ ] Channel tracking and growth history
 - [ ] Studio: ideas, scripts, production board, calendar

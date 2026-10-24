@@ -6,7 +6,8 @@ import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "What Hookline collects (very little), what it stores, and who else is involved.",
+  description:
+    "What Hookline collects (very little), what it stores, how to delete it, and who else is involved.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -15,11 +16,12 @@ export default function PrivacyPage() {
     <SiteShell>
       <LegalPage
         title="Privacy Policy"
-        updated="October 21, 2026"
+        updated="October 24, 2026"
         intro={
           <p>
-            Hookline is built to collect as little as possible. Right now there are no accounts, no
-            ads, no analytics and no cookies. This page explains what does happen when you use it.
+            Hookline is built to collect as little as possible: no ads, no analytics and no
+            tracking. You can look up channels without an account. If you sign in, Hookline keeps
+            just enough to run your account. This page explains both.
           </p>
         }
       >
@@ -43,8 +45,40 @@ export default function PrivacyPage() {
           </p>
         </LegalSection>
 
+        <LegalSection title="If you sign in">
+          <p>
+            You sign in with your Google account. Google then tells Hookline your name, email
+            address, profile picture and an ID for your Google account. Hookline uses these to
+            create your account, show who&apos;s signed in, and keep what you save separate from
+            everyone else&apos;s. Hookline never sees your Google password and can&apos;t reach
+            anything else in your Google account.
+          </p>
+          <p>
+            The sign-in button is Google&apos;s own. It loads from Google on the sign-in page, and
+            the{" "}
+            <LegalLink href="https://policies.google.com/privacy">Google Privacy Policy</LegalLink>{" "}
+            covers it.
+          </p>
+        </LegalSection>
+
         <LegalSection title="What Hookline stores">
           <LegalList>
+            <li>
+              <strong className="font-medium text-foreground">Your account.</strong> Your name,
+              email address, profile picture link and Google account ID, when you joined, and a
+              record of your sign-ins (when, and from which browser and IP address) that helps keep
+              your account secure.
+            </li>
+            <li>
+              <strong className="font-medium text-foreground">Your channel, if you add one.</strong>{" "}
+              Just the @handle or link you typed, so your dashboard knows which channel to show. Its
+              numbers come from YouTube when you look, and aren&apos;t saved with your account.
+            </li>
+            <li>
+              <strong className="font-medium text-foreground">A sign-in cookie.</strong> If you sign
+              in, a cookie in your browser keeps you signed in between visits. It&apos;s only used
+              for that, and signing out removes it.
+            </li>
             <li>
               <strong className="font-medium text-foreground">Public YouTube data.</strong> A copy
               of each channel&apos;s public data is kept for up to about a day, so pages load fast
@@ -56,9 +90,23 @@ export default function PrivacyPage() {
               between light and dark, your choice is saved in your browser&apos;s local storage on
               your device. It never leaves your device, and clearing your browser data removes it.
             </li>
+          </LegalList>
+          <p>That&apos;s all. There are no analytics, no ad trackers and no other cookies.</p>
+        </LegalSection>
+
+        <LegalSection title="Deleting your data">
+          <LegalList>
             <li>
-              <strong className="font-medium text-foreground">Nothing else.</strong> No accounts, no
-              cookies, no analytics and no tracking.
+              Remove your channel at any time in <LegalLink href="/settings">Settings</LegalLink>.
+            </li>
+            <li>
+              Delete your account in Settings, under Delete account. Your account and everything
+              saved with it are deleted straight away. Your Google account and your YouTube channel
+              aren&apos;t affected.
+            </li>
+            <li>
+              You can also remove Hookline from the apps you sign in to with Google, in your{" "}
+              <LegalLink href="https://myaccount.google.com/connections">Google Account</LegalLink>.
             </li>
           </LegalList>
         </LegalSection>
@@ -66,10 +114,18 @@ export default function PrivacyPage() {
         <LegalSection title="Other services involved">
           <LegalList>
             <li>
-              <strong className="font-medium text-foreground">YouTube and Google.</strong> Channel
-              pictures and video thumbnails load straight from YouTube&apos;s servers, so Google
-              receives your IP address and basic browser details when they load. Links to videos and
-              channels take you to YouTube.
+              <strong className="font-medium text-foreground">Supabase</strong> runs Hookline&apos;s
+              sign-in and database, so it stores your account and what you save. See{" "}
+              <LegalLink href="https://supabase.com/privacy">
+                Supabase&apos;s Privacy Policy
+              </LegalLink>
+              .
+            </li>
+            <li>
+              <strong className="font-medium text-foreground">Google and YouTube.</strong> Google
+              provides sign-in. Channel pictures and video thumbnails load straight from
+              YouTube&apos;s servers, so Google receives your IP address and basic browser details
+              when they load. Links to videos and channels take you to YouTube.
             </li>
             <li>
               <strong className="font-medium text-foreground">Vercel</strong> hosts Hookline. Like
@@ -95,7 +151,10 @@ export default function PrivacyPage() {
         </LegalSection>
 
         <LegalSection title="Sharing">
-          <p>Hookline doesn&apos;t sell, rent or share personal information.</p>
+          <p>
+            Hookline doesn&apos;t sell, rent or share personal information. The services above only
+            handle it to run Hookline.
+          </p>
         </LegalSection>
 
         <LegalSection title="Children">
@@ -104,7 +163,7 @@ export default function PrivacyPage() {
 
         <LegalSection title="Changes">
           <p>
-            Before Hookline adds features like sign-in, this policy will be updated. The date at the
+            If Hookline starts collecting anything new, this page will change first. The date at the
             top shows the last change. The rules for using Hookline are in the{" "}
             <LegalLink href="/terms">Terms of Service</LegalLink>.
           </p>

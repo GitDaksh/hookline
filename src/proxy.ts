@@ -8,5 +8,5 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   // Only the signed-in pages. Public pages skip this, so they stay fast and can be cached.
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/settings/:path*"],
 };

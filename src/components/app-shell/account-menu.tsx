@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink, LogOut, Palette } from "lucide-react";
+import { ExternalLink, LogOut, Palette, Settings } from "lucide-react";
 import { toast } from "sonner";
 
+import { setFlash } from "@/components/flash-toast";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -32,11 +33,11 @@ export type AccountUser = {
 
 type AccountMenuProps = {
   user: AccountUser;
-  /** Adds "Sign out". Left off for the design preview's demo account. */
-  canSignOut?: boolean;
+  /** A real, signed-in account: adds Settings and Sign out. Off for the design preview's demo. */
+  signedIn?: boolean;
 };
 
-export function AccountMenu({ user, canSignOut = false }: AccountMenuProps) {
+export function AccountMenu({ user, signedIn = false }: AccountMenuProps) {
   const theme = useTheme();
   const [signingOut, setSigningOut] = useState(false);
 
@@ -45,6 +46,7 @@ export function AccountMenu({ user, canSignOut = false }: AccountMenuProps) {
     try {
       const { createClient } = await import("@/lib/supabase/client");
       await createClient()?.auth.signOut({ scope: "local" });
+      setFlash("You're signed out.");
       // A full page load that also drops this page from the back button, so nothing from the
       // signed-in session stays on screen or in memory.
       window.location.replace("/");
@@ -65,12 +67,12 @@ export function AccountMenu({ user, canSignOut = false }: AccountMenuProps) {
           aria-label="Account menu"
           className="overflow-hidden rounded-full p-0"
         >
-          <Avatar user={user} />
+          <UserAvatar user={user} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-64">
         <div className="flex items-center gap-3 px-2 py-2">
-          <Avatar user={user} className="size-9 shrink-0 rounded-full border border-border" />
+          <UserAvatar user={user} className="size-9 shrink-0 rounded-full border border-border" />
           <div className="min-w-0">
             <p className="truncate text-sm font-medium">{user.name}</p>
             {user.detail && (
@@ -78,6 +80,17 @@ export function AccountMenu({ user, canSignOut = false }: AccountMenuProps) {
             )}
           </div>
         </div>
+        {signedIn && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/settings">
+                <Settings />
+                Settings
+              </Link>
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuLabel>Theme</DropdownMenuLabel>
         <DropdownMenuRadioGroup
@@ -102,7 +115,7 @@ export function AccountMenu({ user, canSignOut = false }: AccountMenuProps) {
             Source on GitHub
           </a>
         </DropdownMenuItem>
-        {canSignOut && (
+        {signedIn && (
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -123,7 +136,13 @@ export function AccountMenu({ user, canSignOut = false }: AccountMenuProps) {
 }
 
 /** A round profile photo, or the first letter of the name when there's no photo. */
-function Avatar({ user, className }: { user: AccountUser; className?: string }) {
+export function UserAvatar({
+  user,
+  className,
+}: {
+  user: Pick<AccountUser, "name" | "avatarUrl">;
+  className?: string;
+}) {
   const [broken, setBroken] = useState(false);
   const classes = cn("flex size-full items-center justify-center overflow-hidden", className);
 
@@ -133,8 +152,8 @@ function Avatar({ user, className }: { user: AccountUser; className?: string }) 
         <Image
           src={user.avatarUrl}
           alt=""
-          width={36}
-          height={36}
+          width={48}
+          height={48}
           unoptimized
           referrerPolicy="no-referrer"
           onError={() => setBroken(true)}
